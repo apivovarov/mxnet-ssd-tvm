@@ -25,32 +25,32 @@ dtype = "float32"
 #target = 'opencl'
 #target = "llvm"
 #target = tvm.target.arm_cpu('rasp3b')
-#target = tvm.target.intel_graphics()
+target = tvm.target.intel_graphics()
 #target = tvm.target.mali('rk3399')
-target = tvm.target.mali()
+#target = tvm.target.mali()
 
 #target_host = 'llvm -target=armv7l-linux-gnueabihf'
-target_host = 'llvm -target=aarch64-linux-gnu'
-#target_host = 'llvm'
+#target_host = 'llvm -target=aarch64-linux-gnu'
+target_host = 'llvm'
 #target_host = None
 
 ######################################################################
 # Convert and compile model with NNVM or Relay for CPU.
 
 #inf_json = "deploy_ssd_resnet50_512/deploy_ssd_resnet50_512-symbol.json"
-#inf_json = "deploy_ssd_inceptionv3_512/deploy_ssd_inceptionv3_512-symbol.json"
+inf_json = "deploy_ssd_inceptionv3_512/deploy_ssd_inceptionv3_512-symbol.json"
 #inf_json = "deploy_ssd_vgg16_reduced_512/deploy_ssd_vgg16_reduced_512-symbol.json"
 #inf_json = "deploy_ssd_vgg16_reduced_300/deploy_ssd_vgg16_reduced_300-symbol.json"
-inf_json = "deploy_ssd_mobilenet_512/deploy_ssd_mobilenet_512-symbol.json"
+#inf_json = "deploy_ssd_mobilenet_512/deploy_ssd_mobilenet_512-symbol.json"
 #inf_json = "deploy_ssd_mobilenet_608/deploy_ssd_mobilenet_608-symbol.json"
 print("mx.sym.load: " + inf_json)
 sym = mx.sym.load(inf_json)
 
 #checkp = "deploy_ssd_resnet50_512/deploy_ssd_resnet50_512"
-#checkp = "deploy_ssd_inceptionv3_512/deploy_ssd_inceptionv3_512"
+checkp = "deploy_ssd_inceptionv3_512/deploy_ssd_inceptionv3_512"
 #checkp = "deploy_ssd_vgg16_reduced_512/deploy_ssd_vgg16_reduced_512"
 #checkp = "deploy_ssd_vgg16_reduced_300/deploy_ssd_vgg16_reduced_300"
-checkp = "deploy_ssd_mobilenet_512/deploy_ssd_mobilenet_512"
+#checkp = "deploy_ssd_mobilenet_512/deploy_ssd_mobilenet_512"
 #checkp = "deploy_ssd_mobilenet_608/deploy_ssd_mobilenet_608"
 print("load_checkpoint: " + checkp)
 _, arg_params, aux_params = load_checkpoint(checkp, 0)
@@ -80,9 +80,9 @@ else:
 print("Saving files")
 # save the graph, lib and params into separate files
 path_lib = "model.so"
-#lib.export_library(path_lib)
+lib.export_library(path_lib)
 #lib.export_library(path_lib, cc="arm-linux-gnueabihf-g++")
-lib.export_library(path_lib, cc="aarch64-linux-gnu-g++")
+#lib.export_library(path_lib, cc="aarch64-linux-gnu-g++")
 with open("model.json", "w") as fo:
     fo.write(graph.json())
 with open("model.params", "wb") as fo:

@@ -38,7 +38,7 @@ else:
     np.save(test_image_npy, img_data.astype(dtype))
 
 ctx = tvm.cl()
-target="armv8-opencl"
+target="opencl"
 
 #base = "deploy_ssd_resnet50_512/{}/".format(target)
 #base = "deploy_ssd_inceptionv3_512/{}/".format(target)
